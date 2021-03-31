@@ -11,6 +11,11 @@ class HousesController < ApplicationController
     end
   end
 
+  def index
+    @houses = House.all
+    render json: @houses
+  end
+
   private 
     def house_params
       params.require(:house).permit!

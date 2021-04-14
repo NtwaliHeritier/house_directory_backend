@@ -2,8 +2,11 @@ class HousesController < ApplicationController
   before_action :authorized
 
   def create
+    image = Cloudinary::Uploader.upload(params[:image])
+    puts params[:image]
     @house = House.new(house_params)
     @house.user_id = @user.id
+    @house.image = image["url"]
     if @house.save
       render json: @house
     else
@@ -18,6 +21,6 @@ class HousesController < ApplicationController
 
   private 
     def house_params
-      params.require(:house).permit!
+      params.permit(:name, :description, :image, :price)
     end
 end
